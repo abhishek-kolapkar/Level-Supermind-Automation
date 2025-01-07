@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="7" passed="7" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2025-01-07T21:35:30 IST" name="Level Supermind Automation" finished-at="2025-01-07T21:36:45 IST" duration-ms="75074">
+    <groups>
+    </groups>
+    <test started-at="2025-01-07T21:35:30 IST" name="Login with Email" finished-at="2025-01-07T21:36:45 IST" duration-ms="75074">
+      <class name="tests.LoginWithEmail">
+        <test-method is-config="true" signature="driverInit()[pri:0, instance:tests.LoginWithEmail@1aa7ecca]" started-at="2025-01-07T21:35:30 IST" name="driverInit" finished-at="2025-01-07T21:35:45 IST" duration-ms="15094" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- driverInit -->
+        <test-method is-config="true" signature="AppActions()[pri:0, instance:tests.LoginWithEmail@1aa7ecca]" started-at="2025-01-07T21:35:45 IST" name="AppActions" finished-at="2025-01-07T21:35:47 IST" duration-ms="1627" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- AppActions -->
+        <test-method signature="navigateToLoginPage()[pri:1, instance:tests.LoginWithEmail@1aa7ecca]" started-at="2025-01-07T21:35:47 IST" name="navigateToLoginPage" finished-at="2025-01-07T21:35:58 IST" duration-ms="11614" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- navigateToLoginPage -->
+        <test-method signature="openEmailScreen()[pri:2, instance:tests.LoginWithEmail@1aa7ecca]" started-at="2025-01-07T21:36:00 IST" name="openEmailScreen" finished-at="2025-01-07T21:36:02 IST" depends-on-methods="tests.LoginWithEmail.navigateToLoginPage" duration-ms="2106" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- openEmailScreen -->
+        <test-method signature="enterValidEmail()[pri:3, instance:tests.LoginWithEmail@1aa7ecca]" started-at="2025-01-07T21:36:03 IST" name="enterValidEmail" finished-at="2025-01-07T21:36:05 IST" depends-on-methods="tests.LoginWithEmail.openEmailScreen" duration-ms="1901" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- enterValidEmail -->
+        <test-method signature="verifyOTPScreenVisible()[pri:4, instance:tests.LoginWithEmail@1aa7ecca]" started-at="2025-01-07T21:36:06 IST" name="verifyOTPScreenVisible" finished-at="2025-01-07T21:36:19 IST" depends-on-methods="tests.LoginWithEmail.enterValidEmail" duration-ms="12878" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- verifyOTPScreenVisible -->
+        <test-method signature="retrieveAndEnterOTP()[pri:5, instance:tests.LoginWithEmail@1aa7ecca]" started-at="2025-01-07T21:36:21 IST" name="retrieveAndEnterOTP" finished-at="2025-01-07T21:36:28 IST" depends-on-methods="tests.LoginWithEmail.verifyOTPScreenVisible" duration-ms="7070" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- retrieveAndEnterOTP -->
+        <test-method signature="verifyEmailByOTP()[pri:6, instance:tests.LoginWithEmail@1aa7ecca]" started-at="2025-01-07T21:36:29 IST" name="verifyEmailByOTP" finished-at="2025-01-07T21:36:30 IST" depends-on-methods="tests.LoginWithEmail.retrieveAndEnterOTP" duration-ms="941" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- verifyEmailByOTP -->
+        <test-method signature="verifyUserStatus()[pri:7, instance:tests.LoginWithEmail@1aa7ecca]" started-at="2025-01-07T21:36:31 IST" name="verifyUserStatus" finished-at="2025-01-07T21:36:43 IST" depends-on-methods="tests.LoginWithEmail.verifyEmailByOTP" duration-ms="12104" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- verifyUserStatus -->
+        <test-method is-config="true" signature="teardown()[pri:0, instance:tests.LoginWithEmail@1aa7ecca]" started-at="2025-01-07T21:36:44 IST" name="teardown" finished-at="2025-01-07T21:36:45 IST" duration-ms="767" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- teardown -->
+      </class> <!-- tests.LoginWithEmail -->
+    </test> <!-- Login with Email -->
+  </suite> <!-- Level Supermind Automation -->
+</testng-results>
