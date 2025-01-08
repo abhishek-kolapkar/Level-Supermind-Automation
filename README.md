@@ -124,8 +124,7 @@ To run the tests, use the following maven commands:
 >- Notifications utility handles runtime OTP extraction, ensuring smooth test execution for login flows requiring OTP.
 
 ### 5. Handling valid/invalid email/phone inputs
->- Created *validateEmailFormat()* & *validatePhoneFormat()* methods in [pages.LoginPage]
-<br />
+>- Created *validateEmailFormat()* & *validatePhoneFormat()* methods in [pages.LoginPage] <br />
 to handle valid/invalid inputs & assert appropriate error messages
 
 >- Handle mobile number format validation only for India
@@ -138,8 +137,7 @@ to handle valid/invalid inputs & assert appropriate error messages
 >- Clear separation of concerns with dedicated folders for base setup, pages, utilities, and tests.
 
 ### 8. Scope for Enhancements
->- Perform regerssion testing with multiple valid/invalid data at a time & log error messages
-<br />
+>- Perform regerssion testing with multiple valid/invalid data at a time & log error messages <br />
 using testng *@DataProvider* method
 
 
