@@ -6,13 +6,19 @@ import org.testng.Assert;
 import base.ScreenBase;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
+import utils.Helper;
 
 public class LoginPage extends ScreenBase {
+  /**
+   * constructor
+   */
   public LoginPage(AndroidDriver driver) {
     super(driver);
   }
 
-  // locators
+  /**
+   * locators
+   */
   @AndroidFindBy(xpath = "//android.widget.TextView[@text='Email']")
   public WebElement emailTab;
 
@@ -22,7 +28,9 @@ public class LoginPage extends ScreenBase {
   @AndroidFindBy(xpath = "//android.widget.TextView[@text='We have sent a code to ']")
   public WebElement otpScreen;
 
-  // common-locators
+  /**
+   * common-locators
+   */
   @AndroidFindBy(xpath = "//android.widget.EditText")
   public WebElement inputField;
 
@@ -32,7 +40,16 @@ public class LoginPage extends ScreenBase {
   @AndroidFindBy(xpath = "//android.widget.ImageView[@content-desc='Back Arrow']")
   public WebElement backBtn;
 
-  // element-interaction methods
+  @AndroidFindBy(xpath = "//android.widget.Toast[1]")
+  WebElement toast;
+
+  /**
+   * element-interaction methods
+   */
+
+  /**
+   * open email-tab
+   */
   public void openEmailTab() {
     if (!emailTab.isSelected())
       emailTab.click();
@@ -40,6 +57,9 @@ public class LoginPage extends ScreenBase {
       System.out.println("Already opened");
   }
 
+  /**
+   * open phone-tab
+   */
   public void openPhoneTab() {
     if (!phoneTab.isSelected())
       phoneTab.click();
@@ -47,60 +67,89 @@ public class LoginPage extends ScreenBase {
       System.out.println("Already opened");
   }
 
+  /**
+   * check if input field visible
+   */
   public Boolean isFieldVisible() {
     return inputField.isDisplayed();
   }
 
-  public void enterInputField(String data) {
+  /**
+   * enter data(email/phone) into input field
+   */
+  public void enterInput(String data) {
     inputField.clear();
     inputField.click();
 
     inputField.sendKeys(data);
   }
 
-  public void validateEmailFormat(String email) {
-    String validEmailRegex = "^[a-z][a-z0-9.]*@(gmail|email|outlook|yahoo)\\.com$";
-
-    String alertErrorText = helper.waitForElement(
-        20, "//android.widget.Toast[1]").getText();
-
-    // check if empty or only whitespace contains
-    if (email.trim().isEmpty()) {
-      Assert.assertEquals(alertErrorText, "Please enter a valid email id");
-    } else if (!email.matches(validEmailRegex)) {
-      Assert.assertEquals(alertErrorText, "Please enter a valid email id");
+  /**
+   * check if alert-toast appeared
+   */
+  public Boolean isToastVisible() {
+    if (toast != null) {
+      System.out.println(toast.getText());
+      return true;
     }
+
+    return false;
   }
 
-  public void validatePhoneFormat(String phone) {
-    // Define a regex for valid phone numbers
-    // 10 digits starting with a valid digit like 6-9 for India
-    String validPhoneNumberRegex = "^[6-9][0-9]{9}$";
-
-    String alertErrorText = helper.waitForElement(
-        20, "//android.widget.Toast[1]").getText();
-
-    // check if empty or only whitespace contains
-    if (phone.trim().isEmpty()) {
-      Assert.assertEquals(alertErrorText, "Please enter a valid phone number");
-    } else if (!phone.matches(validPhoneNumberRegex)) {
-      Assert.assertEquals(alertErrorText, "Please enter a valid phone number");
-    }
-  }
-
+  /**
+   * check if otp-screen open
+   */
   public Boolean isOtpScreenVisible() {
     return otpScreen.isDisplayed();
   }
 
+  /**
+   * cancel GMS prompt
+   */
   public void cancleGMS() {
-    WebElement closeBtn = helper.waitForElement(
-        15,
+    WebElement closeBtn = Helper.waitForElement(10,
         "//android.widget.Button[@text, 'Deny']");
 
     if (closeBtn.isDisplayed()) {
-      System.out.println("<------ GMS screen open ----->");
+      System.out.println("<----- GMS screen open ----->");
       closeBtn.click();
-      System.out.println("<------ GMS screen close (Not allow to copy!) ----->");
+      System.out.println("<----- GMS screen close (Not allow to copy!) ----->");
+    }
+  }
+
+  /**
+   * Validation for email / phone number
+   */
+  public void validateInput(String type, String input) {
+    String validEmailRegex = "^[a-z][a-z0-9.]*@(gmail|email|outlook|yahoo)\\.com$";
+    String validPhoneNumberRegex = "^[6-9][0-9]{9}$";
+
+    String regex = type.equalsIgnoreCase("email") ? validEmailRegex : validPhoneNumberRegex;
+
+    enterInput(input);
+    System.out.println("<----- %s entered ----->".formatted(type));
+    continueBtn.click();
+
+    if (input.trim().isEmpty() || !input.matches(regex)) {
+      try {
+        // check if invalid input toast message
+        if (isToastVisible()) {
+          System.out.println("<----- Invalid %s: %s ----->".formatted(type, input));
+        }
+      } catch (Exception e) {
+        if (isOtpScreenVisible()) {
+          System.out.println("<----- Invalid %s accepted: %s ----->".formatted(type, input));
+          Assert.fail("Invalid %s accepted: %s".formatted(type, input));
+
+          // navigate back to email screen
+          Helper.navigateToBack();
+        }
+      }
+    } else {
+      // check if valid email accepted
+      if (isOtpScreenVisible()) {
+        System.out.println("Valid %s: %s".formatted(type, input));
+      }
     }
   }
 }
