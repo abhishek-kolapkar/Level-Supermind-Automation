@@ -20,7 +20,7 @@ Before you begin, ensure you have met the following requirements:
 - Appium 2.x
 - Android Studio
 - UiAutomator2 driver
-- Your device should connected to system
+- Your Android device should connected to system
 - Any IDE (VS Code, Eclipse, etc.)
 
 ## Installation
@@ -124,9 +124,7 @@ To run the tests, use the following maven commands:
 >- Notifications utility handles runtime OTP extraction, ensuring smooth test execution for login flows requiring OTP.
 
 ### 5. Handling valid/invalid email/phone inputs
->- Created *validateEmailFormat()* & *validatePhoneFormat()* methods in [pages.LoginPage]
-<br />
-to handle valid/invalid inputs & assert appropriate error messages
+>- Created *validateInput()* method in [pages.LoginPage] <br /> to handle valid/invalid inputs & log appropriate error messages
 
 >- Handle mobile number format validation only for India
 
@@ -140,7 +138,7 @@ to handle valid/invalid inputs & assert appropriate error messages
 ### 8. Scope for Enhancements
 >- Perform regerssion testing with multiple valid/invalid data at a time & log error messages
 <br />
-using testng *@DataProvider* method
+> using testng *@DataProvider* method
 
 
 ## Challenges
