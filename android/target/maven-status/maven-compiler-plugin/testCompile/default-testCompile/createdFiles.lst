@@ -2,7 +2,6 @@ base\TestBase.class
 utils\Helper.class
 base\ScreenBase.class
 pages\LoginPage.class
-pages\HomePage.class
 pages\RegisterPage.class
 reports\ReportManager.class
 tests\LoginWithEmail.class

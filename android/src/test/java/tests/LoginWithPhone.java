@@ -4,74 +4,84 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import base.TestBase;
+import utils.Helper;
+import utils.Notification;
 
 public class LoginWithPhone extends TestBase {
+  /**
+   * navigation to login screen
+   */
   @Test(priority = 1)
-  public void navigateToLoginPage() {
-    notification.clearAllNotifications();
+  public void navigateToLoginScreen() {
     landingPage.clickLoginBtn();
 
-    String actualTitle = landingPage.getScreenTitle();
-    Assert.assertEquals(actualTitle, "Sign in", "Title not matched");
+    Assert.assertEquals(
+        landingPage.getScreenTitle(),
+        "Sign in",
+        "Title not matched");
+    System.out.println("<----- Sign in page open ----->");
   }
 
-  @Test(priority = 2, dependsOnMethods = { "navigateToLoginPage" })
+  /**
+   * click on email tab & open email screen
+   */
+  @Test(priority = 2, dependsOnMethods = { "navigateToLoginScreen" })
   public void openPhoneScreen() {
     loginPage.openPhoneTab();
 
-    Boolean isVisible = loginPage.isFieldVisible();
-    Assert.assertTrue(isVisible, "Phone field is not accessible");
+    Assert.assertTrue(
+        loginPage.isFieldVisible(),
+        "Phone field is not accessible");
+    System.out.println("<----- Phone number field visible ----->");
   }
 
+  /**
+   * verify valid email & assert valid/invalid email
+   */
   @Test(priority = 3, dependsOnMethods = { "openPhoneScreen" })
-  public void enterValidPhone() {
-    String phone = properties.getProperty("userPhone");
-    loginPage.enterInputField(phone);
+  public void verifyValidPhoneNumber() {
+    String userPhone = properties.getProperty("userPhone");
+
+    loginPage.validateInput("phone", userPhone);
   }
 
-  @Test(priority = 4, dependsOnMethods = { "enterValidPhone" })
-  public void verifyOTPScreenVisible() {
-    String phone = properties.getProperty("userPhone");
-
-    loginPage.continueBtn.click();
-
-    loginPage.validatePhoneFormat(phone);
+  /**
+   * retrieve OTP from SMS notification & enter it
+   */
+  @Test(priority = 4, dependsOnMethods = { "verifyValidPhoneNumber" })
+  public void retrieveAndEnterOTP() {
+    Assert.assertTrue(loginPage.isOtpScreenVisible());
 
     loginPage.cancleGMS();
 
-    Boolean isVisible = loginPage.isOtpScreenVisible();
-    Assert.assertTrue(isVisible, "Please enter a valid phone number");
+    String OTP = Notification.getPhoneOTP();
+
+    System.out.println("<----- OTP retrived ----->");
+    loginPage.enterInput(OTP);
+    System.out.println("<----- OTP entered ----->");
   }
 
-  @Test(priority = 5, dependsOnMethods = { "verifyOTPScreenVisible" })
-  public void retrieveAndEnterOTP() {
-    String OTP = notification.getPhoneOTP();
-
-    Boolean isVisible = loginPage.isFieldVisible();
-    Assert.assertTrue(isVisible, "OTP field is not accessible");
-
-    loginPage.enterInputField(OTP);
-  }
-
-  @Test(priority = 6, dependsOnMethods = { "retrieveAndEnterOTP" })
+  /**
+   * verify entered OTP
+   */
+  @Test(priority = 5, dependsOnMethods = { "retrieveAndEnterOTP" })
   public void verifyPhoneByOTP() {
     loginPage.continueBtn.click();
+
+    Helper.waitTill(2);
   }
 
-  @Test(priority = 7, dependsOnMethods = { "verifyPhoneByOTP" })
+  /**
+   * verify user status(existing / new)
+   */
+  @Test(priority = 6, dependsOnMethods = { "verifyPhoneByOTP" })
   public void verifyUserStatus() {
-    helper.waitTill(2000);
-
-    Boolean isExistUser = homePage.isHomeScreenVisible();
-    Boolean isNewUser = registerPage.isRegisterScreenVisible();
-
     try {
-      if (isExistUser)
-        Assert.assertTrue(isExistUser, "Welcome to Level Supermind");
-      else if (isNewUser)
-        Assert.assertTrue(isNewUser, "Welcome back...");
+      if (registerPage.isRegisterScreenOpen()) {
+        System.out.println("<----- New user detected: Proceed ----->");
+      }
     } catch (Exception e) {
-      System.out.println("Unable to locate you status");
+      System.out.println("<----- User is already registered ----->");
     }
   }
 }

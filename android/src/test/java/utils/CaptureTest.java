@@ -11,8 +11,9 @@ import org.openqa.selenium.OutputType;
 import io.appium.java_client.android.AndroidDriver;
 
 public class CaptureTest {
+  public static AndroidDriver driver;
 
-  public static String takeScreenshot(AndroidDriver driver, String testName) {
+  public static String takeScreenshot(String testName) {
     try {
       // Create screenshots directory if it doesn't exist
       String ssDirPath = System.getProperty("user.dir") + "\\src\\test\\resources\\screenshots";

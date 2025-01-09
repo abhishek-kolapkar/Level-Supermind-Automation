@@ -10,17 +10,12 @@ import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
 
 public class Helper {
-  protected AndroidDriver driver;
-
-  // constructor
-  public Helper(AndroidDriver driver) {
-    this.driver = driver;
-  }
+  public static AndroidDriver driver;
 
   /**
    * explicit wait
    */
-  public WebElement waitForElement(int duration, String locator) {
+  public static WebElement waitForElement(int duration, String locator) {
     return new WebDriverWait(driver, Duration.ofSeconds(duration))
         .until(ExpectedConditions.presenceOfElementLocated(AppiumBy.xpath(locator)));
   }
@@ -28,9 +23,9 @@ public class Helper {
   /**
    * wait
    */
-  public void waitTill(int duration) {
+  public static void waitTill(int ofSeconds) {
     try {
-      Thread.sleep(duration);
+      Thread.sleep(ofSeconds * 1000);
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
@@ -39,14 +34,14 @@ public class Helper {
   /**
    * navigate to back
    */
-  public void navigateToBack() {
+  public static void navigateToBack() {
     driver.navigate().back();
   }
 
   /**
    * extract a 6-digit OTP from the given text
    */
-  protected String extractOTP(String text) {
+  protected static String extractOTP(String text) {
     String OTP = text.replaceAll("[^0-9]", "").substring(0, 6);
 
     return OTP;

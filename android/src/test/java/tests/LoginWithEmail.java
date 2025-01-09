@@ -4,73 +4,82 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import base.TestBase;
+import utils.Helper;
+import utils.Notification;
 
 public class LoginWithEmail extends TestBase {
+  /**
+   * navigation to login screen
+   */
   @Test(priority = 1)
-  public void navigateToLoginPage() {
-    notification.clearAllNotifications();
+  public void navigateToLoginScreen() {
     landingPage.clickLoginBtn();
 
-    String actualTitle = landingPage.getScreenTitle();
-    Assert.assertEquals(actualTitle, "Sign in", "Title not matched");
+    Assert.assertEquals(
+        landingPage.getScreenTitle(),
+        "Sign in",
+        "Title not matched");
+    System.out.println("<----- Sign in page open ----->");
   }
 
-  @Test(priority = 2, dependsOnMethods = { "navigateToLoginPage" })
+  /**
+   * click on email tab & open email screen
+   */
+  @Test(priority = 2, dependsOnMethods = { "navigateToLoginScreen" })
   public void openEmailScreen() {
     loginPage.openEmailTab();
 
-    Boolean isVisible = loginPage.isFieldVisible();
-    Assert.assertTrue(isVisible, "Email field is not accessible");
+    Assert.assertTrue(
+        loginPage.isFieldVisible(),
+        "Email field is not accessible");
+    System.out.println("<----- Email field visible ----->");
   }
 
+  /**
+   * verify valid email & assert valid/invalid email
+   */
   @Test(priority = 3, dependsOnMethods = { "openEmailScreen" })
-  public void enterValidEmail() {
-    String email = properties.getProperty("userEmail");
+  public void verifyValidEmail() {
+    String userEmail = properties.getProperty("userEmail");
 
-    loginPage.enterInputField(email);
+    loginPage.validateInput("Email", userEmail);
   }
 
-  @Test(priority = 4, dependsOnMethods = { "enterValidEmail" })
-  public void verifyOTPScreenVisible() {
-    String email = properties.getProperty("userEmail");
-
-    loginPage.continueBtn.click();
-
-    loginPage.validateEmailFormat(email);
-
-    Boolean isVisible = loginPage.isOtpScreenVisible();
-    Assert.assertTrue(isVisible, "Please enter a valid email id");
-  }
-
-  @Test(priority = 5, dependsOnMethods = { "verifyOTPScreenVisible" })
+  /**
+   * retrieve OTP from email notification & enter it
+   */
+  @Test(priority = 4, dependsOnMethods = { "verifyValidEmail" })
   public void retrieveAndEnterOTP() {
-    String OTP = notification.getEmailOTP();
+    Assert.assertTrue(loginPage.isOtpScreenVisible());
 
-    Boolean isVisible = loginPage.isFieldVisible();
-    Assert.assertTrue(isVisible, "Email field is not accessible");
+    String OTP = Notification.getEmailOTP();
 
-    loginPage.enterInputField(OTP);
+    System.out.println("<----- OTP retrived ----->");
+    loginPage.enterInput(OTP);
+    System.out.println("<----- OTP entered ----->");
   }
 
-  @Test(priority = 6, dependsOnMethods = { "retrieveAndEnterOTP" })
+  /**
+   * verify entered OTP
+   */
+  @Test(priority = 5, dependsOnMethods = { "retrieveAndEnterOTP" })
   public void verifyEmailByOTP() {
     loginPage.continueBtn.click();
+
+    Helper.waitTill(5);
   }
 
-  @Test(priority = 7, dependsOnMethods = { "verifyEmailByOTP" })
+  /**
+   * verify user status(existing / new)
+   */
+  @Test(priority = 6, dependsOnMethods = { "verifyEmailByOTP" })
   public void verifyUserStatus() {
     try {
-      helper.waitTill(2000);
-
-      if (homePage.isHomeScreenVisible()) {
-        System.out.println("Existing user detected: Welcome back...");
-      } else if (registerPage.isRegisterScreenVisible()) {
-        System.out.println("New user detected: Welcome to Level Supermind");
-      } else {
-        System.out.println("No user detected");
+      if (registerPage.isRegisterScreenOpen()) {
+        System.out.println("<----- New user detected: Proceed ----->");
       }
     } catch (Exception e) {
-      System.out.println("Unable to locate you status");
+      System.out.println("<----- User is already registered ----->");
     }
   }
 }

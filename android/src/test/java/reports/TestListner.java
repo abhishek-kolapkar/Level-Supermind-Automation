@@ -11,7 +11,6 @@ import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.markuputils.ExtentColor;
 import com.aventstack.extentreports.markuputils.MarkupHelper;
 
-import base.TestBase;
 import utils.CaptureTest;
 
 public class TestListner implements ITestListener {
@@ -45,9 +44,7 @@ public class TestListner implements ITestListener {
   // Mark the test as passed in the report
   @Override
   public void onTestSuccess(ITestResult iTestResult) {
-    String testName = CaptureTest.takeScreenshot(
-        TestBase.driver,
-        iTestResult.getMethod().getMethodName());
+    String testName = CaptureTest.takeScreenshot(iTestResult.getMethod().getMethodName());
 
     ReportManager
         .getTest()
@@ -61,9 +58,7 @@ public class TestListner implements ITestListener {
   // Mark the test as failed in the report and add the exception details
   @Override
   public void onTestFailure(ITestResult iTestResult) {
-    String testName = CaptureTest.takeScreenshot(
-        TestBase.driver,
-        iTestResult.getMethod().getMethodName());
+    String testName = CaptureTest.takeScreenshot(iTestResult.getMethod().getMethodName());
 
     ReportManager
         .getTest()
@@ -77,9 +72,7 @@ public class TestListner implements ITestListener {
   // Mark the test as skipped in the report
   @Override
   public void onTestSkipped(ITestResult iTestResult) {
-    String testName = CaptureTest.takeScreenshot(
-        TestBase.driver,
-        iTestResult.getMethod().getMethodName());
+    String testName = CaptureTest.takeScreenshot(iTestResult.getMethod().getMethodName());
 
     ReportManager
         .getTest()
