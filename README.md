@@ -136,9 +136,7 @@ To run the tests, use the following maven commands:
 >- Clear separation of concerns with dedicated folders for base setup, pages, utilities, and tests.
 
 ### 8. Scope for Enhancements
->- Perform regerssion testing with multiple valid/invalid data at a time & log error messages
-<br />
-> using testng *@DataProvider* method
+>- Perform regerssion testing with multiple valid/invalid data at a time & log error messages <br /> using testng *@DataProvider* method
 
 
 ## Challenges
