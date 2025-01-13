@@ -49,19 +49,19 @@ Before you begin, ensure you have met the following requirements:
   |   |   ├── test
           |   ├── java
               |   ├── base  (initialize AndroidDriver with capabilities and all pages)
-              |   ├── pages (all the locators and associated methods with Pagefctory conecepts)
+              |   ├── pages (all the locators and associated methods with Pagefctory concepts)
               |   ├── reports
-                      ├── ReportManager (initialization of Extent report object & apis)
+                      ├── ReportManager (initialization of Extent report object & APIs)
                       ├── TestListner   (capture test events - passed, failed, skipped, etc.)
 
                   ├── tests
-                      ├── LoginWithEmail (whole login process using email with OTP verification)
-                      ├── LoginWithPhone (whole login process using phone with OTP verification)
+                      ├── LoginWithEmail (e2e login process using the email with OTP verification)
+                      ├── LoginWithPhone (e2e login process using the phone with OTP verification)
 
                   ├── utils
                       ├── Helper       (utility methods)
                       ├── CaptureTest  (TakeScreenshot)
-                      ├── Notification (Automate OTP from notification bar)
+                      ├── Notification (Automate OTP from the notification bar)
               |
               ├── resources
                   ├── properties  (Setup driver capabilities & login email/phone)
@@ -73,7 +73,7 @@ Before you begin, ensure you have met the following requirements:
                   ├── screenshots
       |            
       ├── target
-      ├── pom.xml (added all required dependecies & plugins)
+      ├── pom.xml (added all required dependencies & plugins)
       ├── README.md
    
 ```
@@ -120,23 +120,44 @@ To run the tests, use the following maven commands:
 >- TestNG listeners capture test events and link screenshots of failures for enhanced traceability.
 
 ### 4. Utility Layer:
->- Encapsulated reusable methods for tasks such as screenshot capturing, OTP handling, and UI interactions.
+>- Encapsulated reusable methods for screenshot capturing, OTP handling, and UI interactions.
 >- Notifications utility handles runtime OTP extraction, ensuring smooth test execution for login flows requiring OTP.
 
-### 5. Handling valid/invalid email/phone inputs
->- Created *validateInput()* method in [pages.LoginPage] <br /> to handle valid/invalid inputs & log appropriate error messages
-
+### 5. Handling positive/negative cases for email/phone inputs
+>- Created *validateInput()* method in [pages.LoginPage] to handle valid/invalid inputs & log appropriate error messages
 >- Handle mobile number format validation only for India
+``` bash
+Positive Test : 
+> accepts valid email/phone input
+```
 
+``` bash
+Negative Tests : 
+> Blank input [""]  (show error message)
+> Whitespace contains ["     "]  (show error message)
+> Invalid inputs (show error message)
+  Emails: @test@gmail.com
+          gmail.com
+          12345
+          test 12@gmail.com
+
+  Phone: (+91) 823712
+         (+91) 2456987130
+
+> Accept invalid inputs
+  Emails: 12345@gmail.com
+          nehabam945@pariag.com
+          nehabam945@pariag.com
+
+  Phone: (+91) 1236547890
+         (+91) 5632147089
+```
 
 ### 6. Test Execution:
->- TestNG XML files facilitate executing specific test suites (email / phone login).
+>- TestNG XML files facilitate executing specific test suites (email/phone login).
 
 ### 7. Modular and Scalable Design:
 >- Clear separation of concerns with dedicated folders for base setup, pages, utilities, and tests.
-
-### 8. Scope for Enhancements
->- Perform regerssion testing with multiple valid/invalid data at a time & log error messages <br /> using testng *@DataProvider* method
 
 
 ## Challenges
